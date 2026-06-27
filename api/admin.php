@@ -35,51 +35,63 @@ $total_questions = $pdo->query("SELECT COUNT(*) FROM eq_questions")->fetchColumn
 ?>
 <!DOCTYPE html>
 <html lang="mn">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Админ хэсэг - EQ Тест</title>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
+
 <body class="bg-slate-100 font-sans min-h-screen p-6">
 
     <div class="max-w-6xl mx-auto space-y-6">
-        
+
         <div class="bg-white rounded-xl shadow-md p-6 flex flex-col md:flex-row justify-between items-center gap-4">
             <div>
                 <h1 class="text-2xl font-black text-slate-800">EQ Тестийн Удирдах Самбар (Админ)</h1>
-                <p class="text-sm text-slate-500 mt-1">Системд нийт <span class="font-bold text-indigo-600"><?php echo $total_questions; ?></span> асуулт идэвхтэй байна.</p>
+                <p class="text-sm text-slate-500 mt-1">Системд нийт <span
+                        class="font-bold text-indigo-600"><?php echo $total_questions; ?></span> асуулт идэвхтэй байна.
+                </p>
             </div>
             <div class="flex gap-2">
-                <a href="export_admin.php" class="inline-flex items-center gap-2 bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-2.5 px-5 rounded-lg shadow-md transition duration-200 text-sm">
-        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
-        </svg>
-        Excel-ээр татах (.XLS)
-    </a>
-                <a href="/" target="_blank" class="bg-slate-600 text-white px-5 py-2.5 rounded-lg font-bold hover:bg-slate-700 transition">
+                <a href="export.php"
+                    class="inline-flex items-center gap-2 bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-2.5 px-5 rounded-lg shadow-md transition duration-200 text-sm">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                        xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z">
+                        </path>
+                    </svg>
+                    Excel-ээр татах (.XLS)
+                </a>
+                <a href="/" target="_blank"
+                    class="bg-slate-600 text-white px-5 py-2.5 rounded-lg font-bold hover:bg-slate-700 transition">
                     Нүүр хуудас
                 </a>
             </div>
         </div>
 
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-            
+
             <div class="bg-white rounded-xl shadow-md p-6 h-fit">
                 <h2 class="text-lg font-bold text-slate-700 mb-4 border-b pb-2">➕ Шинэ асуулт нэмэх</h2>
-                
+
                 <?php if (!empty($msg)): ?>
-                    <div class="bg-emerald-50 border border-emerald-200 text-emerald-700 px-3 py-2 rounded-md text-sm mb-4">
-                        <?php echo $msg; ?>
-                    </div>
+                <div class="bg-emerald-50 border border-emerald-200 text-emerald-700 px-3 py-2 rounded-md text-sm mb-4">
+                    <?php echo $msg; ?>
+                </div>
                 <?php endif; ?>
 
                 <form action="" method="POST" class="space-y-4">
                     <div>
                         <label class="block text-xs font-bold text-slate-500 uppercase mb-1">Асуултын текст:</label>
-                        <textarea name="question_text" required rows="4" class="w-full p-2.5 bg-slate-50 border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 outline-none text-sm" placeholder="Жишээ нь: Би өөрийнхөө сэтгэл хөдлөлийг маш сайн хянадаг."></textarea>
+                        <textarea name="question_text" required rows="4"
+                            class="w-full p-2.5 bg-slate-50 border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 outline-none text-sm"
+                            placeholder="Жишээ нь: Би өөрийнхөө сэтгэл хөдлөлийг маш сайн хянадаг."></textarea>
                     </div>
-                    <button type="submit" name="add_question" class="w-full bg-indigo-600 text-white p-2.5 rounded-lg font-bold hover:bg-indigo-700 transition text-sm">
+                    <button type="submit" name="add_question"
+                        class="w-full bg-indigo-600 text-white p-2.5 rounded-lg font-bold hover:bg-indigo-700 transition text-sm">
                         Асуулт хадгалах
                     </button>
                 </form>
@@ -87,11 +99,12 @@ $total_questions = $pdo->query("SELECT COUNT(*) FROM eq_questions")->fetchColumn
 
             <div class="lg:col-span-2 bg-white rounded-xl shadow-md p-6">
                 <h2 class="text-lg font-bold text-slate-700 mb-4 border-b pb-2">👥 Тест өгсөн хүүхдүүдийн жагсаалт</h2>
-                
+
                 <div class="overflow-x-auto">
                     <table class="w-full table-auto border-collapse text-sm">
                         <thead>
-                            <tr class="bg-slate-100 text-slate-600 text-left uppercase text-[11px] font-bold tracking-wider">
+                            <tr
+                                class="bg-slate-100 text-slate-600 text-left uppercase text-[11px] font-bold tracking-wider">
                                 <th class="p-3 border-b">Овог Нэр</th>
                                 <th class="p-3 border-b">Сургууль</th>
                                 <th class="p-3 border-b">Холбоо барих</th>
@@ -100,7 +113,7 @@ $total_questions = $pdo->query("SELECT COUNT(*) FROM eq_questions")->fetchColumn
                         </thead>
                         <tbody class="divide-y divide-slate-200 text-slate-700">
                             <?php if (count($results) > 0): ?>
-                                <?php foreach ($results as $row): 
+                            <?php foreach ($results as $row): 
                                     // Онооны өнгөний үнэлгээ
                                     if ($row['score'] >= 160) {
                                         $badge = "bg-emerald-50 text-emerald-700 border-emerald-200";
@@ -112,27 +125,31 @@ $total_questions = $pdo->query("SELECT COUNT(*) FROM eq_questions")->fetchColumn
                                         $badge = "bg-rose-50 text-rose-700 border-rose-200";
                                     }
                                 ?>
-                                    <tr class="hover:bg-slate-50 transition">
-                                        <td class="p-3">
-                                            <div class="font-bold text-slate-900"><?php echo htmlspecialchars($row['name']); ?></div>
-                                        </td>
-                                        <td class="p-3 text-slate-600"><?php echo htmlspecialchars($row['school']); ?></td>
-                                        <td class="p-3 text-xs space-y-0.5">
-                                            <div class="font-medium text-slate-700">📱 <?php echo htmlspecialchars($row['phone']); ?></div>
-                                            <div class="text-slate-400">✉️ <?php echo htmlspecialchars($row['email']); ?></div>
-                                        </td>
-                                        <td class="p-3 text-center">
-                                            <span class="px-2.5 py-1 rounded-full border text-xs font-bold <?php echo $badge; ?>">
-                                                <?php echo $row['score']; ?>
-                                            </span>
-                                        </td>
-                                    </tr>
-                                <?php endforeach; ?>
+                            <tr class="hover:bg-slate-50 transition">
+                                <td class="p-3">
+                                    <div class="font-bold text-slate-900"><?php echo htmlspecialchars($row['name']); ?>
+                                    </div>
+                                </td>
+                                <td class="p-3 text-slate-600"><?php echo htmlspecialchars($row['school']); ?></td>
+                                <td class="p-3 text-xs space-y-0.5">
+                                    <div class="font-medium text-slate-700">📱
+                                        <?php echo htmlspecialchars($row['phone']); ?></div>
+                                    <div class="text-slate-400">✉️ <?php echo htmlspecialchars($row['email']); ?></div>
+                                </td>
+                                <td class="p-3 text-center">
+                                    <span
+                                        class="px-2.5 py-1 rounded-full border text-xs font-bold <?php echo $badge; ?>">
+                                        <?php echo $row['score']; ?>
+                                    </span>
+                                </td>
+                            </tr>
+                            <?php endforeach; ?>
                             <?php else: ?>
-                                <tr>
-                                    <td colspan="4" class="p-8 text-center text-slate-400 italic">Одоогоор тест өгсөн хүүхэд алга байна.</td>
-                                
-                            <?php endif; ?>
+                            <tr>
+                                <td colspan="4" class="p-8 text-center text-slate-400 italic">Одоогоор тест өгсөн хүүхэд
+                                    алга байна.</td>
+
+                                <?php endif; ?>
                         </tbody>
                     </table>
                 </div>
@@ -142,4 +159,5 @@ $total_questions = $pdo->query("SELECT COUNT(*) FROM eq_questions")->fetchColumn
     </div>
 
 </body>
+
 </html>
