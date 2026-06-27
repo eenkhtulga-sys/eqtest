@@ -29,7 +29,6 @@ $students = $pdo->query("SELECT * FROM eq_results ORDER BY id DESC")->fetchAll()
         <td><?php echo htmlspecialchars($s['phone']); ?></td>
         <td><?php echo htmlspecialchars($s['email']); ?></td>
         <td><?php echo $s['score']; ?></td>
-        <td style="font-weight: bold; color: #2563EB;"><?php echo $s['top_types']; ?></td>
         <td><?php echo $s['created_at']; ?></td>
     </tr>
     <?php endforeach; ?>
