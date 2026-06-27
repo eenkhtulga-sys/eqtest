@@ -51,9 +51,12 @@ $total_questions = $pdo->query("SELECT COUNT(*) FROM eq_questions")->fetchColumn
                 <p class="text-sm text-slate-500 mt-1">Системд нийт <span class="font-bold text-indigo-600"><?php echo $total_questions; ?></span> асуулт идэвхтэй байна.</p>
             </div>
             <div class="flex gap-2">
-                <a href="?export=excel" class="bg-emerald-600 text-white px-5 py-2.5 rounded-lg font-bold hover:bg-emerald-700 transition shadow-sm flex items-center gap-2">
-                    📊 Excel Татах
-                </a>
+                <a href="export_admin.php" class="inline-flex items-center gap-2 bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-2.5 px-5 rounded-lg shadow-md transition duration-200 text-sm">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+        </svg>
+        Excel-ээр татах (.XLS)
+    </a>
                 <a href="/" target="_blank" class="bg-slate-600 text-white px-5 py-2.5 rounded-lg font-bold hover:bg-slate-700 transition">
                     Нүүр хуудас
                 </a>
