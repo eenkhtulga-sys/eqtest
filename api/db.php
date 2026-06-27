@@ -1,29 +1,26 @@
 <?php
-$host = $_ENV['DB_HOST'] ?? 'localhost';
-$db   = $_ENV['DB_NAME'] ?? 'sstest';
-$user = $_ENV['DB_USER'] ?? 'root';
-$pass = $_ENV['DB_PASSWORD'] ?? '';
-$charset = 'utf8mb4';
 
-$dsn = "mysql:host=$host;dbname=$db;charset=$charset";
+$host     = 'mysql-37dc3805-ikhzasag-2a09.d.aivencloud.com'; 
+$port     = '21272';      
+$db       = 'sstest';
+$user     = 'avnadmin';
+$pass     = 'AVNS_Y46KyuHT9cudJFWcInl';
+$charset  = 'utf8mb4';
+
+$dsn = "mysql:host=$host;port=$port;dbname=$db;charset=$charset";
+
+// PDO холболтын нэмэлт тохиргоо (SSL-ийг идэвхжүүлэх)
 $options = [
     PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION,
     PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
     PDO::ATTR_EMULATE_PREPARES   => false,
+    
+    PDO::MYSQL_ATTR_SSL_VERIFY_SERVER_CERT => false, 
 ];
 
 try {
-     $pdo = new PDO($dsn, $user, $pass, $options);
+    $pdo = new PDO($dsn, $user, $pass, $options);
 } catch (\PDOException $e) {
-     throw new \PDOException($e->getMessage(), (int)$e->getCode());
-}
-
-// Хэрэв асуултууд ороогүй (хоосон) байвал 40 асуулт автоматаар үүсгэх бэлдэц
-$count = $pdo->query("SELECT COUNT(*) FROM eq_questions")->fetchColumn();
-if ($count == 0) {
-    $stmt = $pdo->prepare("INSERT INTO eq_questions (question_text) VALUES (?)");
-    for ($i = 1; $i <= 40; $i++) {
-        $stmt->execute(["Би өөрийн зан төлөв, сэтгэл хөдлөлөө бүрэн удирдаж чаддаг. (Асуулт №$i)"]);
-    }
+    die("Өгөгдлийн сантай холбогдоход алдаа гарлаа: " . $e->getMessage());
 }
 ?>
