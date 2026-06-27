@@ -1,23 +1,30 @@
 <?php
 include 'db.php';
 
-$stmt = $pdo->query("SELECT id, name, school, phone, email, score, created_at FROM eq_results ORDER BY id DESC");
-$results = $stmt->fetchAll();
+require 'vendor/autoload.php';
 
-$filename = "eq_results_" . date('Y-m-d') . ".csv";
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
+use PhpOffice\PhpSpreadsheet\Style\Alignment;
+use PhpOffice\PhpSpreadsheet\Style\Font;
 
-header("Content-Type: text/csv; charset=UTF-8");
-header("Content-Disposition: attachment; filename=\"$filename\"");
-header("Pragma: no-cache");
-header("Expires: 0");
+$stmt = $pdo->query("
+    SELECT id, name, school, phone, email, score, created_at 
+    FROM eq_results 
+    ORDER BY id DESC
+");
 
-// UTF-8 BOM
-echo "\xEF\xBB\xBF";
+$results = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-$output = fopen("php://output", "w");
 
-// Excel баганаар салгах
-fputcsv($output, [
+$spreadsheet = new Spreadsheet();
+$sheet = $spreadsheet->getActiveSheet();
+
+$sheet->setTitle("EQ Results");
+
+
+// Толгой мөр
+$headers = [
     "ID",
     "Овог Нэр",
     "Сургууль",
@@ -25,21 +32,72 @@ fputcsv($output, [
     "Мэйл хаяг",
     "Оноо",
     "Бөглөсөн огноо"
-], ",");
+];
 
-foreach ($results as $row) {
+$sheet->fromArray($headers, null, "A1");
 
-    fputcsv($output, [
-        $row['id'],
-        $row['name'],
-        $row['school'],
-        $row['phone'],
-        $row['email'],
-        $row['score'],
-        $row['created_at']
-    ], ",");
+
+// Өгөгдөл
+$row = 2;
+
+foreach ($results as $data) {
+
+    $sheet->fromArray([
+        $data['id'],
+        $data['name'],
+        $data['school'],
+        $data['phone'],
+        $data['email'],
+        $data['score'],
+        $data['created_at']
+    ], null, "A".$row);
+
+    $row++;
 }
 
-fclose($output);
-exit();
+
+// Гарчгийн загвар
+$sheet->getStyle("A1:G1")->applyFromArray([
+    'font' => [
+        'bold' => true
+    ],
+    'alignment' => [
+        'horizontal' => Alignment::HORIZONTAL_CENTER
+    ]
+]);
+
+
+// Бүх баганын auto width
+foreach (range('A','G') as $column) {
+
+    $sheet->getColumnDimension($column)
+          ->setAutoSize(true);
+
+}
+
+
+// Хүснэгтийн бүх хэсэгт текст тохируулах
+$sheet->getDefaultRowDimension()
+      ->setRowHeight(20);
+
+
+$filename = "eq_results_" . date('Y-m-d') . ".xlsx";
+
+
+header(
+    'Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+);
+
+header(
+    'Content-Disposition: attachment; filename="'.$filename.'"'
+);
+
+header('Cache-Control: max-age=0');
+
+
+$writer = new Xlsx($spreadsheet);
+
+$writer->save("php://output");
+
+exit;
 ?>
