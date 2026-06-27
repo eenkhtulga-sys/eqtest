@@ -1,103 +1,36 @@
 <?php
+// export.php
 include 'db.php';
 
-require 'vendor/autoload.php';
+header("Content-Type: application/vnd.ms-excel; charset=utf-8");
+header("Content-Disposition: attachment; filename=Students_RIASEC_Report_" . date('Y-m-d') . ".xls");
+header("Expires: 0");
+header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
+header("Pragma: public");
 
-use PhpOffice\PhpSpreadsheet\Spreadsheet;
-use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
-use PhpOffice\PhpSpreadsheet\Style\Alignment;
-use PhpOffice\PhpSpreadsheet\Style\Font;
-
-$stmt = $pdo->query("
-    SELECT id, name, school, phone, email, score, created_at 
-    FROM eq_results 
-    ORDER BY id DESC
-");
-
-$results = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-
-$spreadsheet = new Spreadsheet();
-$sheet = $spreadsheet->getActiveSheet();
-
-$sheet->setTitle("EQ Results");
-
-
-// Толгой мөр
-$headers = [
-    "ID",
-    "Овог Нэр",
-    "Сургууль",
-    "Утас",
-    "Мэйл хаяг",
-    "Оноо",
-    "Бөглөсөн огноо"
-];
-
-$sheet->fromArray($headers, null, "A1");
-
-
-// Өгөгдөл
-$row = 2;
-
-foreach ($results as $data) {
-
-    $sheet->fromArray([
-        $data['id'],
-        $data['name'],
-        $data['school'],
-        $data['phone'],
-        $data['email'],
-        $data['score'],
-        $data['created_at']
-    ], null, "A".$row);
-
-    $row++;
-}
-
-
-// Гарчгийн загвар
-$sheet->getStyle("A1:G1")->applyFromArray([
-    'font' => [
-        'bold' => true
-    ],
-    'alignment' => [
-        'horizontal' => Alignment::HORIZONTAL_CENTER
-    ]
-]);
-
-
-// Бүх баганын auto width
-foreach (range('A','G') as $column) {
-
-    $sheet->getColumnDimension($column)
-          ->setAutoSize(true);
-
-}
-
-
-// Хүснэгтийн бүх хэсэгт текст тохируулах
-$sheet->getDefaultRowDimension()
-      ->setRowHeight(20);
-
-
-$filename = "eq_results_" . date('Y-m-d') . ".xlsx";
-
-
-header(
-    'Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
-);
-
-header(
-    'Content-Disposition: attachment; filename="'.$filename.'"'
-);
-
-header('Cache-Control: max-age=0');
-
-
-$writer = new Xlsx($spreadsheet);
-
-$writer->save("php://output");
-
-exit;
+echo "\xEF\xBB\xBF"; 
+$students = $pdo->query("SELECT * FROM eq_results ORDER BY id DESC")->fetchAll();
 ?>
+<table border="1">
+    <tr style="background-color: #1E3A8A; color: white; font-weight: bold;">
+        <th>ID</th>
+        <th>Овог Нэр</th>
+        <th>Төгссөн Сургууль</th>
+        <th>Утасны дугаар</th>
+        <th>Мэйл хаяг</th>
+        <th>Оноо</th>
+        <th>Бүртгүүлсэн огноо</th>
+    </tr>
+    <?php foreach($students as $s): ?>
+    <tr>
+        <td><?php echo $s['id']; ?></td>
+        <td><?php echo htmlspecialchars($s['name']); ?></td>
+        <td><?php echo htmlspecialchars($s['school']); ?></td>
+        <td><?php echo htmlspecialchars($s['phone']); ?></td>
+        <td><?php echo htmlspecialchars($s['email']); ?></td>
+        <td><?php echo $s['score']; ?></td>
+        <td style="font-weight: bold; color: #2563EB;"><?php echo $s['top_types']; ?></td>
+        <td><?php echo $s['created_at']; ?></td>
+    </tr>
+    <?php endforeach; ?>
+</table>
