@@ -51,7 +51,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit_test'])) {
 </head>
 <body class="font-sans min-h-screen pb-12 antialiased">
     <div class="max-w-4xl mx-auto mt-10 p-10 bg-white rounded-3xl shadow-2xl shadow-indigo-100 border-2 border-indigo-50">
-        <h1 class="text-4xl font-extrabold text-center bg-gradient-to-r from-blue-900 via-indigo-900 to-rose-600 bg-clip-text text-transparent mb-8">Та EQ тестийн хариугаа үзнэ үү!</h1>
+        <h1 class="text-4xl font-extrabold text-center bg-gradient-to-r from-blue-900 via-indigo-900 to-rose-600 bg-clip-text text-transparent mb-8">Сэтгэл хөдлөлийн оюун ухаан буюу EQ тест</h1>
         
         <?php if ($final_score !== null): 
             // Онооны мужаас хамаарч түвшин, тайлбар, өнгийг тодорхойлно
@@ -61,7 +61,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit_test'])) {
                 $btn_color = "bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700";
                 $desc = "
                     <p class='font-bold text-lg mb-2 text-emerald-950'>Та бол эргэн тойрныхоо хүмүүсийн 'Амар амгалан' юм!</p>
-                    Та өөрийнхөө сэтгэл зүйг маш сайн удирдахаас гадна, buсдын хэлээгүй гуниг, ил гаргаагүй баяр баясгаланг ч зүрхээрээ мэдэрч чаддаг ховорхон чадвартай хүн байна. Шуургатай өдөр ч өөрийн дотоод амар амгаланг хадгалж, бусдад гэрэл түгээдэг таны энэ чанар бол төрөлхийн ухааных юм. <br><br>
+                    Та өөрийнхөө сэтгэл зүйг маш сайн удирдахаас гадна, бусдын хэлээгүй гуниг, ил гаргаагүй баяр баясгаланг ч зүрхээрээ мэдэрч чаддаг ховорхон чадвартай хүн байна. Шуургатай өдөр ч өөрийн дотоод амар амгаланг хадгалж, бусдад гэрэл түгээдэг таны энэ чанар бол төрөлхийн ухааных юм. <br><br>
                     <span class='font-semibold text-emerald-950'>🌱 Зөвлөгөө:</span> Та үргэлж бусдыг сонсож, тэднийг дэмждэг учраас заримдаа өөрийнхөө сэтгэл хөдлөлийг дотроо түгжиж, ядардаг талтай. Бусдыг хайрлахын зэрэгцээ өөрийнхөө 'сэтгэл зүйн аяга'-ыг ч бас дүүргэж, амрахад цаг гаргаж байгаарай. Таны дэргэд байгаа хүмүүс үнэхээр азтай!
                 ";
             } elseif ($final_score >= 120) {
@@ -94,7 +94,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit_test'])) {
             }
         ?>
             <div class="border-2 rounded-2xl p-10 text-center shadow-xl <?php echo $color; ?> my-8">
-                <p class="text-base font-semibold text-slate-800">Хүндэт <span class="font-bold text-slate-900"><?php echo htmlspecialchars($name); ?></span> таны EQ тестийн дүн бэлэн боллоо</p>
+                <p class="text-base font-semibold text-slate-800">Хүндэт <span class="font-bold text-slate-900"><?php echo htmlspecialchars($name); ?></span> Таны EQ тестийн дүн бэлэн боллоо</p>
                 
                 <p class="text-5xl font-black mt-4 tracking-tight text-slate-900">Нийт оноо: <?php echo $final_score; ?> / 200</p>
                 
@@ -126,7 +126,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit_test'])) {
                 
                 <div id="step-0" class="step-block bg-white p-3 space-y-6">
                     <div class="bg-gradient-to-r from-blue-50 to-pink-50 p-5 rounded-2xl text-blue-950 text-base font-semibold border border-blue-100/50 shadow-inner">
-                        ✨ Сэтгэл зүйн тестийг эхлүүлэхийн өмнө дараах мэдээллийг үнэн зөв бөглөнө үү.
+                        ✨ Тестийг эхлүүлэхийн өмнө дараах мэдээллийг үнэн зөв бөглөнө үү.
                     </div>
                     
                     <div class="space-y-5">
@@ -137,7 +137,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit_test'])) {
 
                         <div>
                             <label class="block text-slate-600 text-xs font-bold uppercase tracking-wider mb-2">Төгссөн / Сурч буй сургууль:</label>
-                            <input type="text" id="school" name="school" required class="w-full p-4 bg-slate-50/70 border-2 border-slate-200 rounded-xl focus:border-indigo-600 focus:ring-2 focus:ring-indigo-100 transition outline-none" placeholder="МУИС, 1-р сургууль гм...">
+                            <input type="text" id="school" name="school" required class="w-full p-4 bg-slate-50/70 border-2 border-slate-200 rounded-xl focus:border-indigo-600 focus:ring-2 focus:ring-indigo-100 transition outline-none" placeholder="М1-р сургууль гм...">
                         </div>
 
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
