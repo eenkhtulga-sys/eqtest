@@ -137,7 +137,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit_test'])) {
 
                         <div>
                             <label class="block text-slate-600 text-xs font-bold uppercase tracking-wider mb-2">Төгссөн / Сурч буй сургууль:</label>
-                            <input type="text" id="school" name="school" required class="w-full p-4 bg-slate-50/70 border-2 border-slate-200 rounded-xl focus:border-indigo-600 focus:ring-2 focus:ring-indigo-100 transition outline-none" placeholder="М1-р сургууль гм...">
+                            <input type="text" id="school" name="school" required class="w-full p-4 bg-slate-50/70 border-2 border-slate-200 rounded-xl focus:border-indigo-600 focus:ring-2 focus:ring-indigo-100 transition outline-none" placeholder="1-р сургууль гм...">
                         </div>
 
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
